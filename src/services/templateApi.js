@@ -1,5 +1,5 @@
 // 模板API服务
-const API_BASE_URL = 'http://localhost:3001/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
 
 class TemplateApiService {
   // 获取所有自定义模板
