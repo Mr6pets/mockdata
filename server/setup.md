@@ -5,23 +5,23 @@
 ### 方式一：使用Navicat创建数据库
 1. 打开Navicat，连接到你的MySQL服务器
 2. 右键点击连接，选择"新建数据库"
-3. 数据库名称：`mockdata_templates`
+3. 数据库名称：`mockdata_generator`
 4. 字符集：`utf8mb4`
 5. 排序规则：`utf8mb4_unicode_ci`
 
 ### 方式二：使用SQL命令创建
 ```sql
-CREATE DATABASE IF NOT EXISTS mockdata_templates 
+CREATE DATABASE IF NOT EXISTS mockdata_generator 
 DEFAULT CHARACTER SET utf8mb4 
 COLLATE utf8mb4_unicode_ci;
 ```
 
 ## 2. 创建数据表
 
-在Navicat中打开`mockdata_templates`数据库，执行以下SQL：
+在Navicat中打开`mockdata_generator`数据库，执行以下SQL：
 
 ```sql
-USE mockdata_templates;
+USE mockdata_generator;
 
 CREATE TABLE IF NOT EXISTS templates (
     id VARCHAR(36) PRIMARY KEY COMMENT '模板唯一标识符',
@@ -46,7 +46,7 @@ DB_HOST=localhost
 DB_PORT=3306
 DB_USER=root
 DB_PASSWORD=你的密码
-DB_NAME=mockdata_templates
+DB_NAME=mockdata_generator
 
 # 服务器配置
 PORT=3001
@@ -69,7 +69,7 @@ npm start
 ## 6. 在Navicat中查看数据
 
 1. 刷新数据库连接
-2. 展开 `mockdata_templates` 数据库
+2. 展开 `mockdata_generator` 数据库
 3. 双击 `templates` 表查看数据
 4. 可以直接在表格中编辑数据
 

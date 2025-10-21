@@ -1,8 +1,8 @@
 -- 创建数据库（如果不存在）
-CREATE DATABASE IF NOT EXISTS mockdata_templates DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS mockdata_generator DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- 使用数据库
-USE mockdata_templates;
+USE mockdata_generator;
 
 -- 创建模板表
 CREATE TABLE IF NOT EXISTS templates (

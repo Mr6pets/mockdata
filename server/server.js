@@ -132,7 +132,7 @@ const startServer = async () => {
     app.listen(PORT, () => {
       console.log(`服务器运行在 http://localhost:${PORT}`);
       console.log(`MySQL数据库连接成功`);
-      console.log(`数据库: ${process.env.DB_NAME || 'mockdata_templates'}`);
+      console.log(`数据库: ${process.env.DB_NAME || 'mockdata_generator'}`);
     });
   } catch (error) {
     console.error('服务器启动失败:', error);
