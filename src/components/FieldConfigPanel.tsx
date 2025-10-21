@@ -19,12 +19,14 @@ import {
   Typography,
   Checkbox,
   Dropdown,
-  Modal
+  Modal,
+  message
 } from 'antd';
 import { PlusOutlined, DeleteOutlined, SettingOutlined, UpOutlined, DownOutlined, AppstoreOutlined, CheckOutlined, CloseOutlined, HolderOutlined, SaveOutlined, EditOutlined } from '@ant-design/icons';
 import { FieldConfig, DataType } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import templateApiService from '../services/templateApi';
 
 const { Text } = Typography;
 const { Option } = Select;
@@ -157,28 +159,26 @@ const FieldConfigPanel: React.FC<FieldConfigPanelProps> = ({
     loadCustomTemplates();
   }, []);
 
-  // 从localStorage加载自定义模板
-  const loadCustomTemplates = () => {
+  // 从API加载自定义模板
+  const loadCustomTemplates = async () => {
     try {
-      const saved = localStorage.getItem('customFieldTemplates');
-      if (saved) {
-        const templates = JSON.parse(saved) as FieldTemplate[];
-        setCustomTemplates(templates);
-        setAllTemplates([...defaultTemplates, ...templates]);
-      }
-    } catch (error) {
-      console.error('加载自定义模板失败:', error);
-    }
-  };
-
-  // 保存自定义模板到localStorage
-  const saveCustomTemplates = (templates: FieldTemplate[]) => {
-    try {
-      localStorage.setItem('customFieldTemplates', JSON.stringify(templates));
+      const templates = await templateApiService.getTemplates();
       setCustomTemplates(templates);
       setAllTemplates([...defaultTemplates, ...templates]);
     } catch (error) {
-      console.error('保存自定义模板失败:', error);
+      console.error('加载自定义模板失败:', error);
+      message.error('加载自定义模板失败');
+    }
+  };
+
+  // 保存自定义模板到API
+  const saveCustomTemplates = async (templates: FieldTemplate[]) => {
+    try {
+      // 这个方法现在主要用于更新本地状态
+      setCustomTemplates(templates);
+      setAllTemplates([...defaultTemplates, ...templates]);
+    } catch (error) {
+      console.error('更新模板状态失败:', error);
     }
   };
 
@@ -293,7 +293,7 @@ const FieldConfigPanel: React.FC<FieldConfigPanelProps> = ({
   };
 
   // 保存当前字段配置为自定义模板
-  const saveCurrentFieldsAsTemplate = () => {
+  const saveCurrentFieldsAsTemplate = async () => {
     if (!templateName.trim()) {
       Modal.error({ title: '错误', content: '请输入模板名称' });
       return;
@@ -317,26 +317,47 @@ const FieldConfigPanel: React.FC<FieldConfigPanelProps> = ({
       createdAt: new Date().toISOString()
     };
 
-    const updatedCustomTemplates = [...customTemplates, newTemplate];
-    saveCustomTemplates(updatedCustomTemplates);
+    try {
+      // 使用API保存模板
+      await templateApiService.createTemplate(newTemplate);
+      
+      // 更新本地状态
+      const updatedCustomTemplates = [...customTemplates, newTemplate];
+      setCustomTemplates(updatedCustomTemplates);
+      setAllTemplates([...defaultTemplates, ...updatedCustomTemplates]);
 
-    // 重置表单
-    setTemplateName('');
-    setTemplateDescription('');
-    setSaveTemplateModalVisible(false);
+      // 重置表单
+      setTemplateName('');
+      setTemplateDescription('');
+      setSaveTemplateModalVisible(false);
 
-    Modal.success({ title: '成功', content: '模板保存成功！' });
+      message.success('模板保存成功！');
+    } catch (error) {
+      console.error('保存模板失败:', error);
+      message.error('保存模板失败，请重试');
+    }
   };
 
   // 删除自定义模板
-  const deleteCustomTemplate = (templateId: string) => {
+  const deleteCustomTemplate = async (templateId: string) => {
     Modal.confirm({
       title: '确认删除',
       content: '确定要删除这个自定义模板吗？此操作不可恢复。',
-      onOk: () => {
-        const updatedCustomTemplates = customTemplates.filter(t => t.id !== templateId);
-        saveCustomTemplates(updatedCustomTemplates);
-        Modal.success({ title: '成功', content: '模板删除成功！' });
+      onOk: async () => {
+        try {
+          // 使用API删除模板
+          await templateApiService.deleteTemplate(templateId);
+          
+          // 更新本地状态
+          const updatedCustomTemplates = customTemplates.filter(t => t.id !== templateId);
+          setCustomTemplates(updatedCustomTemplates);
+          setAllTemplates([...defaultTemplates, ...updatedCustomTemplates]);
+          
+          message.success('模板删除成功！');
+        } catch (error) {
+          console.error('删除模板失败:', error);
+          message.error('删除模板失败，请重试');
+        }
       }
     });
   };
