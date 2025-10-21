@@ -91,16 +91,16 @@ const App: React.FC = () => {
             </Card>
 
             {/* 主要内容区域 */}
-            <div style={{ display: 'grid', gridTemplateColumns: '400px 1fr', gap: '24px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '400px 1fr', gap: '24px', height: 'calc(100vh - 200px)' }}>
               {/* 字段配置面板 */}
-              <Card title="字段配置" style={{ height: 'fit-content' }}>
+              <div style={{ height: '100%' }}>
                 <FieldConfigPanel 
                   fields={fields}
                   dataCount={dataCount}
                   onFieldsChange={handleFieldsChange}
                   onDataCountChange={handleDataCountChange}
                 />
-              </Card>
+              </div>
 
               {/* 右侧标签页内容 */}
               <Card>
