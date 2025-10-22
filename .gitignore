@@ -1,24 +1,85 @@
-# Logs
-logs
-*.log
+# Dependencies
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Build outputs
+dist/
+dist-ssr/
+build/
+out/
+
+# Environment variables (IMPORTANT: Keep these secure!)
+.env
+.env.local
+.env.development
+.env.test
+# Note: .env.production should be handled carefully - consider using environment-specific deployment
+
+# Runtime and cache files
 *.local
+.cache/
+.parcel-cache/
+.vite/
+.turbo/
+
+# TypeScript
+*.tsbuildinfo
+.tscache/
+
+# Testing
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+
+# Logs
+logs/
+*.log
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Deployment and security sensitive files
+deploy-config.json
+deploy-secrets.*
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Temporary files
+*.tmp
+*.temp
+.temp/
+.tmp/
+
+# Package manager files
+.pnpm-store/
+.yarn/
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
