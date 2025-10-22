@@ -4,34 +4,61 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Environment variables (CRITICAL: Never commit these!)
+.env
+.env.local
+.env.development
+.env.test
+# Note: .env.production contains production secrets - handle with extreme care
+
+# Database files (if using local SQLite)
+*.db
+*.sqlite
+*.sqlite3
+database.sqlite*
+
 # Runtime data
-pids
+pids/
 *.pid
 *.seed
 *.pid.lock
 
 # Coverage directory used by tools like istanbul
 coverage/
+.nyc_output/
 
-# nyc test coverage
-.nyc_output
+# Testing
+test-results/
+playwright-report/
 
-# Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
-.grunt
+# Build outputs
+build/
+dist/
+out/
 
-# Bower dependency directory (https://bower.io/)
-bower_components
+# Cache directories
+.cache/
+.parcel-cache/
+.vite/
+
+# Grunt intermediate storage
+.grunt/
+
+# Bower dependency directory
+bower_components/
 
 # node-waf configuration
 .lock-wscript
 
-# Compiled binary addons (https://nodejs.org/api/addons.html)
+# Compiled binary addons
 build/Release
 
 # Dependency directories
 jspm_packages/
 
-# TypeScript v1 declaration files
+# TypeScript cache and build info
+*.tsbuildinfo
+.tscache/
 typings/
 
 # Optional npm cache directory
@@ -49,25 +76,11 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file (keep .env.production for deployment)
-.env.local
-.env.development
-
-# parcel-bundler cache (https://parceljs.org/)
-.cache
-.parcel-cache
-
-# next.js build output
-.next
-
-# nuxt.js build output
-.nuxt
-
-# vuepress build output
-.vuepress/dist
+# PM2 process manager
+.pm2/
 
 # Serverless directories
-.serverless
+.serverless/
 
 # FuseBox cache
 .fusebox/
@@ -79,8 +92,34 @@ typings/
 .tern-port
 
 # Logs
-logs
+logs/
 *.log
+
+# Security sensitive files
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.jks
+*.keystore
+config/secrets.*
+secrets.*
+
+# Deployment configuration
+deploy-config.json
+deploy-secrets.*
+.deploy/
+
+# Session store files
+sessions/
+*.session
+
+# Uploads and user content (consider if these should be tracked)
+uploads/
+public/uploads/
+temp/
+tmp/
 
 # OS generated files
 .DS_Store
@@ -90,3 +129,23 @@ logs
 .Trashes
 ehthumbs.db
 Thumbs.db
+desktop.ini
+
+# Editor files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Package manager
+.pnpm-store/
+.yarn/
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
