@@ -2,7 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const database = require('./database');
-require('dotenv').config();
+
+// 根据环境加载不同的配置文件
+const envFile = process.env.NODE_ENV === 'production' ? '.env.production' : '.env';
+require('dotenv').config({ path: envFile });
 
 const app = express();
 const PORT = process.env.PORT || 3001;

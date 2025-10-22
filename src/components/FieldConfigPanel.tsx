@@ -163,8 +163,19 @@ const FieldConfigPanel: React.FC<FieldConfigPanelProps> = ({
   const loadCustomTemplates = async () => {
     try {
       const templates = await templateApiService.getTemplates();
-      setCustomTemplates(templates);
-      setAllTemplates([...defaultTemplates, ...templates]);
+      // 转换Template类型为FieldTemplate类型
+      const fieldTemplates: FieldTemplate[] = templates.map(template => ({
+        ...template,
+        description: template.description || '',
+        isCustom: true,
+        fields: template.fields.map(field => ({
+          name: field.name,
+          type: field.type as DataType,
+          required: field.required || false
+        }))
+      }));
+      setCustomTemplates(fieldTemplates);
+      setAllTemplates([...defaultTemplates, ...fieldTemplates]);
     } catch (error) {
       console.error('加载自定义模板失败:', error);
       message.error('加载自定义模板失败');
@@ -722,7 +733,7 @@ const FieldConfigPanel: React.FC<FieldConfigPanelProps> = ({
                               </div>
                               <div>
                                 {template.fields.map((field, idx) => (
-                                  <Tag key={idx} size="small">
+                                  <Tag key={idx}>
                                     {field.name}
                                     {field.required && <span style={{ color: '#ff4d4f' }}>*</span>}
                                   </Tag>
@@ -768,7 +779,7 @@ const FieldConfigPanel: React.FC<FieldConfigPanelProps> = ({
                             title={
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <span>{template.name}</span>
-                                <Tag color="green" size="small">自定义</Tag>
+                                <Tag color="green">自定义</Tag>
                               </div>
                             }
                             description={
@@ -783,7 +794,7 @@ const FieldConfigPanel: React.FC<FieldConfigPanelProps> = ({
                                 </div>
                                 <div>
                                   {template.fields.map((field, idx) => (
-                                    <Tag key={idx} size="small">
+                                    <Tag key={idx}>
                                       {field.name}
                                       {field.required && <span style={{ color: '#ff4d4f' }}>*</span>}
                                     </Tag>
@@ -863,13 +874,13 @@ const FieldConfigPanel: React.FC<FieldConfigPanelProps> = ({
                         }}>
                           <span>
                             {field.name || '未命名字段'}
-                            {field.required && <Tag color="red" size="small" style={{ marginLeft: 8 }}>必填</Tag>}
-                            <Tag color="blue" size="small" style={{ marginLeft: 8 }}>
+                            {field.required && <Tag color="red" style={{ marginLeft: 8 }}>必填</Tag>}
+                      <Tag color="blue" style={{ marginLeft: 8 }}>
                               {dataTypeOptions.find(opt => opt.value === field.type)?.label}
                             </Tag>
                             {fieldErrors[field.id] && (
                               <Tooltip title={fieldErrors[field.id].join('; ')}>
-                                <Tag color="error" size="small" style={{ marginLeft: 8 }}>
+                                <Tag color="error" style={{ marginLeft: 8 }}>
                                   错误
                                 </Tag>
                               </Tooltip>

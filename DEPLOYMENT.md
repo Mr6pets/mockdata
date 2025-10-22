@@ -78,6 +78,113 @@ npm run preview
 2. 确保后端API服务部署在对应的域名下
 3. 配置Web服务器的反向代理（如果需要）
 
+## 后端服务器部署
+
+### 1. 环境配置文件
+
+后端服务器支持多环境配置：
+
+- **开发环境**: `.env` (本地开发使用)
+- **生产环境**: `.env.production` (线上部署使用)
+
+### 2. 数据库配置差异
+
+**开发环境** (`.env`):
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=8bR39mc9
+DB_NAME=mockdata_generator
+PORT=3001
+```
+
+**生产环境** (`.env.production`):
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=8bR39mc9!
+DB_NAME=mockdata_generator
+PORT=3001
+NODE_ENV=production
+```
+
+### 3. 启动命令
+
+```bash
+# 开发环境启动
+npm run dev
+
+# 生产环境启动
+npm run start:prod
+
+# 或者直接设置环境变量
+NODE_ENV=production npm start
+```
+
+### 4. 部署步骤
+
+1. 上传代码到服务器
+2. 安装依赖：`npm install`
+3. 确保 `.env.production` 文件存在且配置正确
+4. 启动服务：`npm run start:prod`
+
+## 前端应用部署
+
+### 1. 环境配置文件
+
+前端应用支持多环境配置：
+
+- **开发环境**: `.env` (本地开发使用)
+- **生产环境**: `.env.production` (线上部署使用)
+
+### 2. 前端环境变量
+
+**开发环境** (`.env`):
+```env
+VITE_API_BASE_URL=http://localhost:3001/api
+VITE_APP_ENV=development
+```
+
+**生产环境** (`.env.production`):
+```env
+VITE_API_BASE_URL=http://mockdatagenerator.guluwater.com/api
+VITE_APP_ENV=production
+```
+
+### 3. 构建和部署
+
+```bash
+# 开发环境构建
+npm run build
+
+# 生产环境构建
+npm run build:prod
+
+# 指定环境构建
+npm run build -- --mode production
+```
+
+### 4. 部署到服务器
+
+1. 构建项目：`npm run build:prod`
+2. 将 `dist` 目录上传到服务器
+3. 配置 Web 服务器（如 Nginx）指向 `dist` 目录
+
+## 重要注意事项
+
+### 数据库密码差异
+- **本地环境**: `8bR39mc9`
+- **生产环境**: `8bR39mc9!`
+
+确保在部署时使用正确的环境配置文件，系统会自动根据 `NODE_ENV` 环境变量选择对应的配置文件。
+
+### 环境变量优先级
+1. 系统环境变量
+2. `.env.production` (生产环境)
+3. `.env` (开发环境)
+
 ### 7. 构建命令
 
 ```bash
