@@ -17,7 +17,9 @@ out/
 .env.local
 .env.development
 .env.test
-# Note: .env.production should be handled carefully - consider using environment-specific deployment
+.env.production
+.env.staging
+# Note: All .env files contain sensitive information - never commit to version control
 
 # Runtime and cache files
 *.local
